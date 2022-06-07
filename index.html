@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App</title>
+
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+    <div x-data="{
+        name: 'Groceries',
+        note: '',
+        price: '0',
+        count: 0,
+        total: 0,
+        list: [],
+        add() {
+            var regex=/^[a-zA-Z]+$/;
+            if (this.price.match(regex))
+            {
+                alert('Must input number');
+                return
+            }
+            
+            this.total = this.total + parseInt(this.price)
+            this.list.push({label: this.note, price: parseInt(this.price)})
+            this.count = this.count + 1
+            this.note = ''
+            this.price = '0'
+
+        },
+        remove(item) {
+            this.count = this.count - 1
+            var p = parseInt(this.list[this.list.indexOf(item)].price)
+            this.total = this.total - p
+            this.list.splice(this.list.indexOf(item), 1)
+        }
+    }" class="container mt-4">
+
+        <h1 x-text="name"></h1>
+
+        <div>
+            <p>
+                Total: <span x-text="total"></span>
+            </p>
+
+            <p>
+                Number of Items: <span x-text="count"></span>
+            </p>
+        </div>
+
+        <div class="input-group mb-3">
+            <input class="form-control" x-model="note" type="text">
+            <input class="form-control" x-model="price" type="text">
+            <button x-on:click="add" x-on:keyup.enter="add" class="btn btn-primary position-relative">
+                Add
+            </button>
+        </div>
+
+        <ul class="list-group">
+            <template x-for="item in list">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span x-text="item.label"></span>
+                    <span x-text="item.price"></span>
+                    <button @click="remove(item)" type="button" class="btn btn-sm btn-danger btn-small">&times;</button>
+                </li>
+            </template>
+        </ul>
+    </div>  
+</body>
+</html>
