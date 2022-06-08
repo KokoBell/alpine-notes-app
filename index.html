@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="This is a Grocery List web-app built with AlpineJS and Bootstrap. It also keeps track of the total cost of your groceries.">
     <title>Notes App</title>
 
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -52,13 +53,14 @@
             </p>
         </div>
 
-        <div class="input-group mb-3">
-            <input class="form-control" x-model="note" type="text">
-            <input class="form-control" x-model="price" type="text">
-            <button x-on:click="add" x-on:keyup.enter="add" class="btn btn-primary position-relative">
-                Add
-            </button>
-        </div>
+        <label for="note">Item</label>
+        <input class="form-control mb-3" x-model="note" type="text" id="note">
+        <label for="price">Price</label>
+        <input class="form-control mb-3" x-model="price" type="text" id="price">
+
+        <button x-on:click="add" x-on:keyup.enter="add" class="btn btn-primary">
+            Add
+        </button>
 
         <ul class="list-group">
             <template x-for="item in list">
