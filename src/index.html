@@ -23,7 +23,7 @@
         name: 'Groceries',
         note: '',
         price: '0',
-        count: JSON.parse(localStorage.getItem('list')).array_list.length,
+        count: JSON.parse(localStorage.getItem('list')).array_list ? JSON.parse(localStorage.getItem('list')).array_list.length : 0,
         total: 0,
         list: JSON.parse(localStorage.getItem('list')).array_list.length > 0 ? JSON.parse(localStorage.getItem('list')) : {
             'array_list': []
