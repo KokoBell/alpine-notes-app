@@ -1,7 +1,7 @@
 {
     "name": "Listy",
     "short_name": "Listy",
-    "start_url": "/",
+    "start_url": "/src/index.html",
     "id": "/",
     "icons": [
         {
