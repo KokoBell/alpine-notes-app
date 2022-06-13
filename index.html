@@ -34,13 +34,9 @@
         totalCost: localStorage.getItem('list') === null ? 0 : JSON.parse(localStorage.getItem('list')).array_list.map((item) => {
         return [parseInt(item.price)]
         }).reduce( (total, next) => {
-            console.log(total)
-            console.log(next)
             let cost = parseInt(total) + parseInt(next)
-            console.log(typeof cost)
-            console.log(cost)
             return cost
-        })
+        }, 0)
         
         /*() => {
             let t = 0
