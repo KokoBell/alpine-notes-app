@@ -30,17 +30,10 @@
         subtitle: 'Items to get',
         note: '',
         price: '0',
-        count: localStorage.getItem('list') === null ? 0 : JSON.parse(localStorage.getItem('list')).array_list.length,
-        totalCost: localStorage.getItem('list') === null ? 0 : JSON.parse(localStorage.getItem('list')).array_list.map((item) => {
-            console.log(item)
-            return [parseInt(item.price)]
-        }).reduce( (total, next) => {
-            let cost = parseInt(total) + parseInt(next)
-            return cost
-        }, 0),
-        list: localStorage.getItem('list') === null ? {
-            'array_list': []
-        } : JSON.parse(localStorage.getItem('list')),
+        count: this.list.length,
+        totalCost: this.priceList.length === 0 ? 0 : (this.priceList.length === 1 ? this.priceList[0] : this.priceList.reduce( (total, num) => { return parseInt(total) + parseInt(num)})),
+        priceList: [],
+        list: [],
         add() {
             var regex=/^[a-zA-Z]+$/;
             if (this.price.match(regex))
@@ -55,17 +48,17 @@
                 return
             }
             
-            this.list.array_list.push({label: this.note, price: parseInt(this.price)})
-            localStorage.setItem('list', JSON.stringify(this.list))
+            this.list.push({label: this.note, price: parseInt(this.price)})
+            this.priceList.push(parseInt(this.price))
             this.totalCost = this.totalCost + parseInt(this.price)
             this.count += 1
             this.note = ''
             this.price = '0'
         },
         remove(item) {
-            var p = parseInt(this.list.array_list[this.list.array_list.indexOf(item)].price)
-            this.list.array_list.splice(this.list.array_list.indexOf(item), 1)
-            localStorage.setItem('list', JSON.stringify(this.list))
+
+            this.list.splice(this.list.indexOf(item), 1)
+            this.priceList.splice(this.priceList.indexOf(parseInt(item.price)), 1)
             this.totalCost = this.totalCost < 0 ? 0 : this.totalCost - parseInt(item.price)
             this.count = this.count < 0 ? 0 : this.count - 1
         }
