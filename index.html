@@ -58,6 +58,8 @@
             
             this.list.array_list.push({label: this.note, price: parseInt(this.price)})
             localStorage.setItem('list', JSON.stringify(this.list))
+            this.totalCost = this.totalCost + parseInt(this.price)
+            this.count += 1
             this.note = ''
             this.price = '0'
         },
@@ -65,6 +67,8 @@
             var p = parseInt(this.list.array_list[this.list.array_list.indexOf(item)].price)
             this.list.array_list.splice(this.list.array_list.indexOf(item), 1)
             localStorage.setItem('list', JSON.stringify(this.list))
+            this.totalCost = this.totalCost <= 0 ? 0 : this.totalCost - parseInt(this.price)
+            this.count = this.count <= 0 ? 0 : this.count - 1
         }
     }" class="container mt-4">
 
