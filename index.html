@@ -31,7 +31,7 @@
         note: '',
         price: '0',
         count: localStorage.getItem('list') === null ? 0 : JSON.parse(localStorage.getItem('list')).array_list.length,
-        totalCost: localStorage.getItem('list') === null ? 0 : () => {
+        totalCost: localStorage.getItem('list') === null ? 0 : () {
             let t = 0
             let l = JSON.parse(localStorage.getItem('list')).array_list
             for(let i = 0; i < l.length; i++) {
