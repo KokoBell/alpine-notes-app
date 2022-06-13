@@ -27,6 +27,7 @@
 
     <div x-data="{
         name: 'Groceries',
+        subtitle: 'Items to get',
         note: '',
         price: '0',
         count: localStorage.getItem('list') === null ? 0 : JSON.parse(localStorage.getItem('list')).array_list.length,
@@ -84,13 +85,15 @@
         <label for="price">Price</label>
         <input class="form-control mb-3" x-model="price" type="text" id="price">
 
-        <button x-on:click="add" x-on:keyup.enter="add" class="btn btn-primary">
+        <button x-on:click="add" class="btn btn-primary">
             Add
         </button>
 
+        <h2 x-text="subtitle" class="mt-5 mb-5"></h2>
+
         <ul class="list-group">
             <template x-for="item in list.array_list">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li class="mt-5 mb-5 list-group-item d-flex justify-content-between align-items-center">
                     <span x-text="item.label"></span>
                     <span x-text="item.price"></span>
                     <button @click="remove(item)" type="button" class="btn btn-sm btn-danger btn-small">&times;</button>
