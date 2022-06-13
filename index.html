@@ -31,14 +31,20 @@
         note: '',
         price: '0',
         count: localStorage.getItem('list') === null ? 0 : JSON.parse(localStorage.getItem('list')).array_list.length,
-        totalCost: localStorage.getItem('list') === null ? 0 : (() => {
+        totalCost: localStorage.getItem('list') === null ? 0 : JSON.parse(localStorage.getItem('list')).array_list.map((item) => {
+        return [parseInt(item.price)]
+        }).reduce( (total, next) => {
+            return total + next
+        })
+        
+        /*() => {
             let t = 0
             let l = JSON.parse(localStorage.getItem('list')).array_list
             for(let i = 0; i < l.length; i++) {
                 t+=parseInt(l[i].price)
             }
-            return t 
-        }),
+            return t
+        }*/,
         list: localStorage.getItem('list') === null ? {
             'array_list': []
         } : JSON.parse(localStorage.getItem('list')),
