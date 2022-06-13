@@ -22,7 +22,7 @@
             navigator.serviceWorker.register("sw.js")
         }
 
-        document.activeEventListener('alpine:init', () => {
+        document.addEventListener('alpine:init', () => {
             Alpine.store('groceryList', {
                 name: 'Groceries',
                 subtitle: 'Items to get',
@@ -84,7 +84,7 @@
         <label for="price">Price</label>
         <input class="form-control mt-2 mb-3" x-model="$store.groceryList.price" type="text" id="price">
 
-        <button x-on:click="add" class="btn btn-primary mb-5">
+        <button x-on:click="$store.groceryList.add()" class="btn btn-primary mb-5">
             Add
         </button>
 
@@ -95,7 +95,7 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <span x-text="item.label"></span>
                     <span x-text="item.price"></span>
-                    <button @click="remove(item)" type="button" class="btn btn-sm btn-danger btn-small">&times;</button>
+                    <button @click="$store.groceryList.remove(item)" type="button" class="btn btn-sm btn-danger btn-small">&times;</button>
                 </li>
             </template>
         </ul>
