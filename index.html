@@ -9,97 +9,94 @@
         content="This is a Grocery List web-app built with AlpineJS and Bootstrap. It also keeps track of the total cost of your groceries.">
     <title>Notes App</title>
 
+    <script src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="manifest" href="../manifest.json">
 </head>
 
-<body>
+<body x-data>
 
     <script>
         if ("serviceWorker" in navigator) {
             navigator.serviceWorker.register("sw.js")
         }
+
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('groceryList', {
+                name: 'Groceries',
+                subtitle: 'Items to get',
+                note: '',
+                price: 0,
+                priceList: Alpine.$persist([]),
+                list: Alpine.$persist([]),
+                count: Alpine.$persist(0),
+                totalCost: Alpine.$persist(0),
+                add() {
+                    var regex = /^[a-zA-Z]+$/;
+                    if (this.price.match(regex)) {
+                        alert('Price must be a number');
+                        return
+                    }
+
+                    if (this.note === '') {
+
+                        alert('Item field should not be empty')
+                        return
+                    }
+
+                    this.list.push({ label: this.note, price: parseInt(this.price) })
+                    this.priceList.push(parseInt(this.price))
+                    this.totalCost = this.totalCost + parseInt(this.price)
+                    this.count += 1
+                    this.note = ''
+                    this.price = '0'
+                },
+                remove(item) {
+
+                    this.list.splice(this.list.indexOf(item), 1)
+                    this.priceList.splice(this.priceList.indexOf(parseInt(item.price)), 1)
+                    this.totalCost = this.totalCost < 0 ? 0 : this.totalCost - parseInt(item.price)
+                    this.count = this.count < 0 ? 0 : this.count - 1
+                }
+            })
+        })
     </script>
 
 
 
-    <div x-data="{
-        name: 'Groceries',
-        subtitle: 'Items to get',
-        note: '',
-        price: '0',
-        count: localStorage.getItem('list') === null ? 0 : JSON.parse(localStorage.getItem('list')).array_list.length,
-        totalCost: localStorage.getItem('list') === null ? 0 : JSON.parse(localStorage.getItem('list')).array_list.map((item) => {
-            console.log(item)
-            return [parseInt(item.price)]
-        }).reduce( (total, next) => {
-            let cost = parseInt(total) + parseInt(next)
-            return cost
-        }, 0),
-        list: localStorage.getItem('list') === null ? {
-            'array_list': []
-        } : JSON.parse(localStorage.getItem('list')),
-        add() {
-            var regex=/^[a-zA-Z]+$/;
-            if (this.price.match(regex))
-            {
-                alert('Price must be a number');
-                return
-            }
+    <div x-data="{}" class="container mt-4">
 
-            if(this.note === '') {
-
-                alert('Item field should not be empty')
-                return
-            }
-            
-            this.list.array_list.push({label: this.note, price: parseInt(this.price)})
-            localStorage.setItem('list', JSON.stringify(this.list))
-            this.totalCost = this.totalCost + parseInt(this.price)
-            this.count += 1
-            this.note = ''
-            this.price = '0'
-        },
-        remove(item) {
-            var p = parseInt(this.list.array_list[this.list.array_list.indexOf(item)].price)
-            this.list.array_list.splice(this.list.array_list.indexOf(item), 1)
-            localStorage.setItem('list', JSON.stringify(this.list))
-            this.totalCost = this.totalCost < 0 ? 0 : this.totalCost - parseInt(item.price)
-            this.count = this.count < 0 ? 0 : this.count - 1
-        }
-    }" class="container mt-4">
-
-        <h1 x-text="name"></h1>
+        <h1 x-text="$store.groceryList.name"></h1>
 
         <div>
             <p>
-                Total: <span x-text="totalCost"></span>
+                Total: <span x-text="$store.groceryList.totalCost"></span>
             </p>
 
             <p>
-                Number of Items: <span x-text="count"></span>
+                Number of Items: <span x-text="$store.groceryList.count"></span>
             </p>
         </div>
 
         <label for="note">Item</label>
-        <input class="form-control mt-2 mb-3" x-model="note" type="text" id="note">
+        <input class="form-control mt-2 mb-3" x-model="$store.groceryList.note" type="text" id="note">
         <label for="price">Price</label>
-        <input class="form-control mt-2 mb-3" x-model="price" type="text" id="price">
+        <input class="form-control mt-2 mb-3" x-model="$store.groceryList.price" type="text" id="price">
 
-        <button x-on:click="add" class="btn btn-primary mb-5">
+        <button x-on:click="$store.groceryList.add()" class="btn btn-primary mb-5">
             Add
         </button>
 
-        <h2 x-text="subtitle" class="mt-5 mb-5"></h2>
+        <h2 x-text="$store.groceryList.subtitle" class="mt-5 mb-5"></h2>
 
         <ul class="list-group">
-            <template x-for="item in list.array_list">
+            <template x-for="item in $store.groceryList.list">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <span x-text="item.label"></span>
                     <span x-text="item.price"></span>
-                    <button @click="remove(item)" type="button" class="btn btn-sm btn-danger btn-small">&times;</button>
+                    <button @click="$store.groceryList.remove(item)" type="button" class="btn btn-sm btn-danger btn-small">&times;</button>
                 </li>
             </template>
         </ul>
