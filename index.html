@@ -31,13 +31,14 @@
         note: '',
         price: '0',
         count: localStorage.getItem('list') === null ? 0 : JSON.parse(localStorage.getItem('list')).array_list.length,
-        totalCost: localStorage.getItem('list') === null ? 0 : () => {
+        totalCost: localStorage.getItem('list') === null ? 0 : costFunction(),
+        costFunction() {
             let t = 0
             let l = JSON.parse(localStorage.getItem('list')).array_list
             for(let i = 0; i < l.length; i++) {
-                t+=l[i].price
+                t+=parseInt(l[i].price)
             }
-            return t
+            return t 
         },
         list: localStorage.getItem('list') === null ? {
             'array_list': []
@@ -67,8 +68,8 @@
             var p = parseInt(this.list.array_list[this.list.array_list.indexOf(item)].price)
             this.list.array_list.splice(this.list.array_list.indexOf(item), 1)
             localStorage.setItem('list', JSON.stringify(this.list))
-            this.totalCost = this.totalCost <= 0 ? 0 : this.totalCost - parseInt(this.price)
-            this.count = this.count <= 0 ? 0 : this.count - 1
+            this.totalCost = this.totalCost < 0 ? 0 : this.totalCost - parseInt(this.price)
+            this.count = this.count < 0 ? 0 : this.count - 1
         }
     }" class="container mt-4">
 
