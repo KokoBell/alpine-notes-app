@@ -59,7 +59,6 @@
             localStorage.setItem('list', JSON.stringify(this.list))
             this.note = ''
             this.price = '0'
-            window.location.reload()
         },
         remove(item) {
             var p = parseInt(this.list.array_list[this.list.array_list.indexOf(item)].price)
