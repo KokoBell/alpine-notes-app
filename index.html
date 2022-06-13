@@ -31,13 +31,13 @@
         note: '',
         price: '0',
         count: localStorage.getItem('list') === null ? 0 : JSON.parse(localStorage.getItem('list')).array_list.length,
-        totalCost: localStorage.getItem('list') === null ? 0 : JSON.parse(localStorage.getItem('list')).array_list.map((item) => {
+        initialCost: localStorage.getItem('list') === null ? 0 : JSON.parse(localStorage.getItem('list')).array_list.map((item) => {
         return [parseInt(item.price)]
         }).reduce( (total, next) => {
             let cost = parseInt(total) + parseInt(next)
             return cost
-        }, 0)
-        
+        }, 0),
+        totalCost: parseInt(this.initialCost)
         /*() => {
             let t = 0
             let l = JSON.parse(localStorage.getItem('list')).array_list
