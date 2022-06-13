@@ -37,16 +37,7 @@
         }).reduce( (total, next) => {
             let cost = parseInt(total) + parseInt(next)
             return cost
-        }, 0)
-        
-        /*() => {
-            let t = 0
-            let l = JSON.parse(localStorage.getItem('list')).array_list
-            for(let i = 0; i < l.length; i++) {
-                t+=parseInt(l[i].price)
-            }
-            return t
-        }*/,
+        }, 0),
         list: localStorage.getItem('list') === null ? {
             'array_list': []
         } : JSON.parse(localStorage.getItem('list')),
@@ -75,7 +66,7 @@
             var p = parseInt(this.list.array_list[this.list.array_list.indexOf(item)].price)
             this.list.array_list.splice(this.list.array_list.indexOf(item), 1)
             localStorage.setItem('list', JSON.stringify(this.list))
-            this.totalCost = this.totalCost < 0 ? 0 : this.totalCost - parseInt(this.price)
+            this.totalCost = this.totalCost < 0 ? 0 : this.totalCost - parseInt(item.price)
             this.count = this.count < 0 ? 0 : this.count - 1
         }
     }" class="container mt-4">
