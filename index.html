@@ -7,16 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="This is a Grocery List web-app built with AlpineJS and Bootstrap. It also keeps track of the total cost of your groceries.">
-    <title>Notes App</title>
+    <title> Listy </title>
 
     <script src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="manifest" href="../manifest.json">
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body x-data>
+<body>
 
     <script>
         if ("serviceWorker" in navigator) {
@@ -25,10 +26,11 @@
 
         document.addEventListener('alpine:init', () => {
             Alpine.store('groceryList', {
-                name: 'Groceries',
+                name: 'Listy',
                 subtitle: 'Items to get',
                 note: '',
-                price: 0,
+                itemPlaceHolder: 'e.g. Mielie Meal',
+                price: '',
                 priceList: Alpine.$persist([]),
                 list: Alpine.$persist([]),
                 count: Alpine.$persist(0),
@@ -51,10 +53,9 @@
                     this.totalCost = this.totalCost + parseInt(this.price)
                     this.count += 1
                     this.note = ''
-                    this.price = '0'
+                    this.price = ''
                 },
                 remove(item) {
-
                     this.list.splice(this.list.indexOf(item), 1)
                     this.priceList.splice(this.priceList.indexOf(parseInt(item.price)), 1)
                     this.totalCost = this.totalCost < 0 ? 0 : this.totalCost - parseInt(item.price)
@@ -68,35 +69,73 @@
 
     <div x-data="{}" class="container mt-4">
 
-        <h1 x-text="$store.groceryList.name"></h1>
-
-        <div>
-            <p>
-                Total: <span x-text="$store.groceryList.totalCost"></span>
-            </p>
-
-            <p>
-                Number of Items: <span x-text="$store.groceryList.count"></span>
-            </p>
+        <div class="heading">
+            <h1 x-text="$store.groceryList.name"></h1>
+            <a href="/about.html" class="learn-link">
+                <button class="btn text-primary learn-button">
+                    Learn more
+                </button>
+            </a>
         </div>
 
-        <label for="note">Item</label>
-        <input class="form-control mt-2 mb-3" x-model="$store.groceryList.note" type="text" id="note">
-        <label for="price">Price</label>
-        <input class="form-control mt-2 mb-3" x-model="$store.groceryList.price" type="text" id="price">
+        <div class="view">
 
-        <button x-on:click="$store.groceryList.add()" class="btn btn-primary mb-5">
+            <div class="total-view">
+                <p class="total-text text-muted">
+                    Total:
+                </p>
+
+                <span class="total-cost" x-text="$store.groceryList.totalCost"></span>
+            </div>
+
+            <div class="item-view">
+                <p class="item-text text-muted">
+                    Number of Items:
+                </p>
+
+                <span class="item-number" x-text="$store.groceryList.count"></span>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <div class="item-input">
+                <label for="note" class="note">Item</label>
+                <input class="form-control" x-model="$store.groceryList.note" type="text" id="note"
+                    placeholder="e.g. Mielie Meal">
+            </div>
+            <div class="price-input">
+                <label for="price" class="price">Price <span class="text-muted">(Rands)</span></label>
+                <input class="form-control" x-model="$store.groceryList.price" type="text" id="price"
+                    placeholder="e.g. 89">
+            </div>
+        </div>
+
+        <button x-on:click="$store.groceryList.add()" class="btn btn-primary add-button">
             Add
         </button>
 
-        <h2 x-text="$store.groceryList.subtitle" class="mt-5 mb-5"></h2>
+        <h2 x-text="$store.groceryList.subtitle" class="subtitle"></h2>
+
+        <ul class="title-list text-muted">
+            <li>
+                Item
+            </li>
+            <li>
+                Price
+            </li>
+            <li>
+            </li>
+        </ul>
 
         <ul class="list-group">
             <template x-for="item in $store.groceryList.list">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li class="list-group-item">
                     <span x-text="item.label"></span>
-                    <span x-text="item.price"></span>
-                    <button @click="$store.groceryList.remove(item)" type="button" class="btn btn-sm btn-danger btn-small">&times;</button>
+                    <span class="text-muted">|</span>
+                    <span x-text="item.price" class="item-price"></span>
+                    <span class="text-muted">|</span>
+                    <button @click="$store.groceryList.remove(item)" type="button"
+                        class="btn btn-sm btn-danger btn-small delete-button">&times;</button>
                 </li>
             </template>
         </ul>

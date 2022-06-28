@@ -1,0 +1,104 @@
+:root {
+    font-size: 16px;
+}
+
+.heading {
+    display: flex;
+    justify-content: space-between;
+}
+
+.note, .price {
+    font-size: 1.2rem;
+}
+
+.text-muted {
+    font-size: 1rem;
+}
+
+.add-button {
+    margin-top: 1rem;
+    width: 8rem;
+    height: 2.6rem;
+}
+
+.learn-button {
+    width: 8rem;
+    height: 2.6rem;
+    background-color: white;
+    border: 1.5px solid;
+}
+
+.learn-link {
+    align-self: center;
+}
+
+.click-heading:hover, .add-button:hover, .learn-button:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+}
+
+.item-price {
+    display: flex;
+    align-items: center;
+}
+
+.title-list {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+.view {
+    display: flex;
+    justify-content: space-around;
+}
+
+.item-view, .total-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.total-text, .item-text {
+    font-size: 1.1rem;
+}
+
+.total-cost, .item-number {
+    font-size: 2rem;
+    font-weight: 200;
+}
+
+.subtitle {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.input-group {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-input {
+    flex: 1;
+    padding-right: 5%;
+}
+
+.price-input {
+    flex:  1;
+}
+
+.step-text {
+    font-size: 1.2rem;
+}
+
+h2 {
+    margin-top: 2rem;
+}
