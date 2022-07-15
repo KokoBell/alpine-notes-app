@@ -2,6 +2,7 @@ let cacheName = 'list_cache'
 let staticAssets = [
     './',
     './index.html',
+    './about.html',
     './robots.txt',
     './sw.js',
     './README.md',

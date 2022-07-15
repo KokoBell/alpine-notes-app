@@ -9,6 +9,9 @@
         content="This is a Grocery List web-app built with AlpineJS and Bootstrap. It also keeps track of the total cost of your groceries.">
     <title> Listy </title>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"
+        integrity="sha512-6PM0qYu5KExuNcKt5bURAoT6KCThUmHRewN3zUFNaoI6Di7XJPTMoT6K0nsagZKk2OB4L7E3q1uQKHNHd4stIQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
@@ -42,8 +45,12 @@
                         return
                     }
 
-                    if (this.note === '') {
+                    if (this.price < 0) {
+                        alert('Price cannot be less than zero')
+                        return
+                    }
 
+                    if (this.note === '') {
                         alert('Item field should not be empty')
                         return
                     }
@@ -60,6 +67,19 @@
                     this.priceList.splice(this.priceList.indexOf(parseInt(item.price)), 1)
                     this.totalCost = this.totalCost < 0 ? 0 : this.totalCost - parseInt(item.price)
                     this.count = this.count < 0 ? 0 : this.count - 1
+
+                    if (this.list.length == 0) {
+                        this.totalCost = 0
+                    }
+                    // Add functionality so that the total is not adjusted
+                    // Checked items move to the bottom
+                    // Only deleted items are removed
+                },
+                check(ev) {
+                    ev.target.classList.toggle('checked')
+                },
+                edit(item) {
+                    console.log(item)
                 }
             })
         })
@@ -129,13 +149,17 @@
 
         <ul class="list-group">
             <template x-for="item in $store.groceryList.list">
-                <li class="list-group-item">
+                <li class="list-group-item" x-on:click="(ev) => $store.groceryList.check(ev)">
                     <span x-text="item.label"></span>
                     <span class="text-muted">|</span>
                     <span x-text="item.price" class="item-price"></span>
-                    <span class="text-muted">|</span>
-                    <button @click="$store.groceryList.remove(item)" type="button"
-                        class="btn btn-sm btn-danger btn-small delete-button">&times;</button>
+                    <span class="text-muted"></span>
+                    <div class="button-group">
+                        <button @click="$store.groceryList.edit(item)" type="button"
+                            class="btn btn-sm btn-small edit-button"><i class="fas fa-edit"></i></button>
+                        <button @click="$store.groceryList.remove(item)" type="button"
+                            class="btn btn-sm btn-small delete-button"><i class="fas fa-trash-alt"></i></button>
+                    </div>
                 </li>
             </template>
         </ul>

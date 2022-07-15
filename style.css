@@ -21,6 +21,14 @@
     height: 2.6rem;
 }
 
+.delete-button {
+    background-color: #ff502f;
+}
+
+.edit-button {
+    background-color: #8bc24c;
+}
+
 .learn-button {
     width: 8rem;
     height: 2.6rem;
@@ -41,6 +49,16 @@
     display: flex;
     justify-content: space-between;
     font-size: 1.2rem;
+}
+
+.list-group-item:hover {
+    background-color: lightblue;
+}
+
+.list-group-item.checked {
+    background: #888;
+    color: #fff;
+    opacity: 0.4;
 }
 
 .item-price {
