@@ -70,16 +70,17 @@
 
                     if (this.list.length == 0) {
                         this.totalCost = 0
+                        this.count = 0
                     }
-                    // Add functionality so that the total is not adjusted
                     // Checked items move to the bottom
-                    // Only deleted items are removed
                 },
                 check(ev) {
                     ev.target.classList.toggle('checked')
                 },
-                edit(item) {
-                    console.log(item)
+                edit(item, ev) {
+                    this.note = item.label
+                    this.price = item.price.toString()
+                    this.remove(item)
                 }
             })
         })
@@ -149,17 +150,15 @@
 
         <ul class="list-group">
             <template x-for="item in $store.groceryList.list">
-                <li class="list-group-item" x-on:click="(ev) => $store.groceryList.check(ev)">
+                <li class="list-group-item" x-on:dblclick="(ev) => $store.groceryList.edit(item, ev, $store.groceryList.list)"
+                    x-on:click="(ev) => $store.groceryList.check(ev)">
                     <span x-text="item.label"></span>
                     <span class="text-muted">|</span>
                     <span x-text="item.price" class="item-price"></span>
                     <span class="text-muted"></span>
-                    <div class="button-group">
-                        <button @click="$store.groceryList.edit(item)" type="button"
-                            class="btn btn-sm btn-small edit-button"><i class="fas fa-edit"></i></button>
-                        <button @click="$store.groceryList.remove(item)" type="button"
-                            class="btn btn-sm btn-small delete-button"><i class="fas fa-trash-alt"></i></button>
-                    </div>
+                    <button @click="$store.groceryList.remove(item)" type="button"
+                        class="btn btn-sm btn-small delete-button"><i class="fas fa-trash-alt"></i></button>
+
                 </li>
             </template>
         </ul>
