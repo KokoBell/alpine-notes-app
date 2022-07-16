@@ -47,9 +47,9 @@
 
                     this.price = filterNum(this.price)
 
-                    if(this.price.startsWith('.')) {
+                    if (this.price.startsWith('.')) {
                         this.price = this.price.substring(1)
-                    }                    
+                    }
 
                     var regex = /^[a-zA-Z]+$/;
                     if (this.price.match(regex)) {
@@ -84,21 +84,30 @@
                         this.totalCost = 0
                         this.count = 0
                     }
-                    // Checked items move to the bottom
                 },
                 check(target) {
+                    if(target.nodeName == "SPAN"){
+                        return
+                    }
                     target.classList.toggle('checked')
+                    let list = target.parentNode
+                    if (target.classList.contains('checked')) {
+                        list.insertBefore(target, null)
+                    } else {
+                        list.insertBefore(target, list.childNodes[0])
+                    }
+                    
                 },
                 edit(item, ev) {
                     this.note = item.label
                     this.price = item.price.toString()
                     this.remove(item)
+
+                    // Unchecked items move back to original postion
                 }
             })
         })
     </script>
-
-
 
     <div x-data="{}" class="container mt-4">
 
@@ -161,7 +170,7 @@
         </ul>
 
         <ul class="list-group">
-            <template x-for="item in $store.groceryList.list">
+            <template x-for="item in $store.groceryList.list" class="template">
                 <li class="list-group-item"
                     x-on:dblclick="(ev) => $store.groceryList.edit(item, ev, $store.groceryList.list)"
                     x-on:click="(ev) => $store.groceryList.check(ev.target)">
