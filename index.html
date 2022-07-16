@@ -74,8 +74,9 @@
                     }
                     // Checked items move to the bottom
                 },
-                check(ev) {
-                    ev.target.classList.toggle('checked')
+                check(target) {
+                    console.log(target)
+                    target.classList.toggle('checked')
                 },
                 edit(item, ev) {
                     this.note = item.label
@@ -151,14 +152,13 @@
         <ul class="list-group">
             <template x-for="item in $store.groceryList.list">
                 <li class="list-group-item" x-on:dblclick="(ev) => $store.groceryList.edit(item, ev, $store.groceryList.list)"
-                    x-on:click="(ev) => $store.groceryList.check(ev)">
-                    <span x-text="item.label"></span>
-                    <span class="text-muted">|</span>
-                    <span x-text="item.price" class="item-price"></span>
-                    <span class="text-muted"></span>
+                    x-on:click="(ev) => $store.groceryList.check(ev.target)">
+                    <span x-text="item.label" x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)"></span>
+                    <span class="text-muted" x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)">|</span>
+                    <span x-text="item.price" class="item-price" x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)"></span>
+                    <span class="text-muted" x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)"></span>
                     <button @click="$store.groceryList.remove(item)" type="button"
                         class="btn btn-sm btn-small delete-button"><i class="fas fa-trash-alt"></i></button>
-
                 </li>
             </template>
         </ul>
