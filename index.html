@@ -39,6 +39,18 @@
                 count: Alpine.$persist(0),
                 totalCost: Alpine.$persist(0),
                 add() {
+                    const filterNum = (str) => {
+                        const numericalChar = new Set([".", ",", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]);
+                        str = str.split("").filter(char => numericalChar.has(char)).join("");
+                        return str;
+                    }
+
+                    this.price = filterNum(this.price)
+
+                    if(this.price.startsWith('.')) {
+                        this.price = this.price.substring(1)
+                    }                    
+
                     var regex = /^[a-zA-Z]+$/;
                     if (this.price.match(regex)) {
                         alert('Price must be a number');
@@ -75,7 +87,6 @@
                     // Checked items move to the bottom
                 },
                 check(target) {
-                    console.log(target)
                     target.classList.toggle('checked')
                 },
                 edit(item, ev) {
@@ -151,11 +162,15 @@
 
         <ul class="list-group">
             <template x-for="item in $store.groceryList.list">
-                <li class="list-group-item" x-on:dblclick="(ev) => $store.groceryList.edit(item, ev, $store.groceryList.list)"
+                <li class="list-group-item"
+                    x-on:dblclick="(ev) => $store.groceryList.edit(item, ev, $store.groceryList.list)"
                     x-on:click="(ev) => $store.groceryList.check(ev.target)">
-                    <span x-text="item.label" x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)"></span>
-                    <span class="text-muted" x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)">|</span>
-                    <span x-text="item.price" class="item-price" x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)"></span>
+                    <span x-text="item.label"
+                        x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)"></span>
+                    <span class="text-muted"
+                        x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)">|</span>
+                    <span x-text="item.price" class="item-price"
+                        x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)"></span>
                     <span class="text-muted" x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)"></span>
                     <button @click="$store.groceryList.remove(item)" type="button"
                         class="btn btn-sm btn-small delete-button"><i class="fas fa-trash-alt"></i></button>
