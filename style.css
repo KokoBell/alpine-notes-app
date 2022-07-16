@@ -71,6 +71,10 @@
     opacity: 0.4;
 }
 
+.list-group-item.checked:hover {
+    background-color: rgb(3, 52, 100);
+}
+
 .item-price {
     display: flex;
     align-items: center;

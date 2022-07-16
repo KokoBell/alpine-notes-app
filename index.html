@@ -47,7 +47,7 @@
 
                     this.price = filterNum(this.price)
 
-                    if (this.price.startsWith('.')) {
+                    if (this.price.startsWith('.') || this.price.startsWith(',')) {
                         this.price = this.price.substring(1)
                     }
 
@@ -95,15 +95,14 @@
                         list.insertBefore(target, null)
                     } else {
                         list.insertBefore(target, list.childNodes[0])
-                    }
-                    
+                    }    
                 },
                 edit(item, ev) {
                     this.note = item.label
                     this.price = item.price.toString()
                     this.remove(item)
-
                     // Unchecked items move back to original postion
+                    // CSS changes should be persistent across refreshes
                 }
             })
         })
