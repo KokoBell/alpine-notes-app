@@ -86,18 +86,24 @@
                     }
                 },
                 check(target) {
-                    if(target.nodeName == "SPAN"){
+                    if (target.nodeName == "SPAN") {
                         return
                     }
-                    target.classList.toggle('checked')
+
                     let list = target.parentNode
-                    if (target.classList.contains('checked')) {
+
+                    if (!target.classList.contains('checked')) {
+                        target.classList.add('checked')
                         list.insertBefore(target, null)
                     } else {
+                        target.classList.remove('checked')
                         list.insertBefore(target, list.childNodes[0])
-                    }    
+                    }
                 },
-                edit(item, ev) {
+                edit(item) {
+                    if (this.note != '' || this.price != '') {
+                        return
+                    }
                     this.note = item.label
                     this.price = item.price.toString()
                     this.remove(item)
@@ -170,8 +176,7 @@
 
         <ul class="list-group">
             <template x-for="item in $store.groceryList.list" class="template">
-                <li class="list-group-item"
-                    x-on:dblclick="(ev) => $store.groceryList.edit(item, ev, $store.groceryList.list)"
+                <li class="list-group-item" x-on:dblclick="$store.groceryList.edit(item)"
                     x-on:click="(ev) => $store.groceryList.check(ev.target)">
                     <span x-text="item.label"
                         x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)"></span>
