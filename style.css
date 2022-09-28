@@ -68,7 +68,7 @@
 
 .list-group-item {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     font-size: 1.2rem;
 }
 
