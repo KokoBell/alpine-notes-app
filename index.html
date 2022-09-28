@@ -90,7 +90,12 @@
                         this.totalCost = 0
                         this.count = 0
                     }
-                    location.reload()
+
+                    if (this.note == item.label) {
+                        console.log("Editing...")
+                    } else {
+                        location.reload()
+                    }
                 },
                 check(target, item) {
                     if (target.nodeName == "SPAN" || target.nodeName == "svg" || target.nodeName == "path") {
@@ -177,8 +182,7 @@
         <ul class="list-group">
             <template x-for="item in $store.groceryList.list" class="template">
                 <li x-data:="{checked: item.checked}"
-                    x-bind:class="checked ? 'list-group-item checked':'list-group-item'"
-                    x-on:click="(ev) => {
+                    x-bind:class="checked ? 'list-group-item checked':'list-group-item'" x-on:click.self="(ev) => {
                         if(ev.target.nodeName=='svg' || ev.target.nodeName=='path' || ev.target.nodeName=='BUTTON'){
                             return
                         }
@@ -194,7 +198,7 @@
                     <span class="text-muted"
                         x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode,item)"></span>
                     <div class="user-section">
-                        <button @click="$store.groceryList.remove(item)" type="button"
+                        <button @click.stop="$store.groceryList.remove(item)" type="button"
                             class="btn btn-sm btn-small delete-button"><i class="fas fa-trash-alt"></i></button>
                         <button @click="$store.groceryList.edit(item)" type="button"
                             class="btn btn-sm btn-small edit-button"><i class="fa fa-edit"></i></button>

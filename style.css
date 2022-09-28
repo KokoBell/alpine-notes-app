@@ -21,6 +21,11 @@
     margin-top: 1rem;
     width: 8rem;
     height: 2.6rem;
+    border: none;
+}
+
+.add-button:hover{
+    background-color: rgb(99, 149, 224);
 }
 
 .delete-button {
@@ -28,7 +33,7 @@
     color: blanchedalmond;
     padding-left: var(--padding);
     padding-right: var(--padding);
-    margin-right: 12px;
+    margin-right: 4px;
 }
 
 .delete-button:hover {
