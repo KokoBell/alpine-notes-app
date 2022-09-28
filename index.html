@@ -68,6 +68,11 @@
                         return
                     }
 
+                    if (this.price === '' || this.price === NaN) {
+                        alert('Price field should not be empty')
+                        return
+                    }
+
                     this.list.push({ label: this.note, price: parseInt(this.price) })
                     this.priceList.push(parseInt(this.price))
                     this.totalCost = this.totalCost + parseInt(this.price)
@@ -177,8 +182,7 @@
 
         <ul class="list-group">
             <template x-for="item in $store.groceryList.list" class="template">
-                <li class="list-group-item" x-on:dblclick="$store.groceryList.edit(item)"
-                    x-on:click="(ev) => $store.groceryList.check(ev.target)">
+                <li class="list-group-item" x-on:click="(ev) => $store.groceryList.check(ev.target)">
                     <span x-text="item.label"
                         x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)"></span>
                     <span class="text-muted"
@@ -186,8 +190,12 @@
                     <span x-text="item.price" class="item-price"
                         x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)"></span>
                     <span class="text-muted" x-on:click="(ev) => $store.groceryList.check(ev.target.parentNode)"></span>
-                    <button @click="$store.groceryList.remove(item)" type="button"
-                        class="btn btn-sm btn-small delete-button"><i class="fas fa-trash-alt"></i></button>
+                    <div class="user-section">
+                        <button @click="$store.groceryList.remove(item)" type="button"
+                            class="btn btn-sm btn-small delete-button"><i class="fas fa-trash-alt"></i></button>
+                        <button @click="$store.groceryList.edit(item)" type="button"
+                            class="btn btn-sm btn-small edit-button"><i class="fas fa-trash-alt"></i></button>
+                    </div>
                 </li>
             </template>
         </ul>

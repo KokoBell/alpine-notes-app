@@ -27,6 +27,11 @@
     color: blanchedalmond;
 }
 
+.edit-button {
+    background-color: rgb(63, 206, 63);
+    color: blanchedalmond;
+}
+
 .delete-button:hover {
     background-color: red;
     color: blanchedalmond;
