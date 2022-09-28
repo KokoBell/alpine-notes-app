@@ -100,7 +100,7 @@
 
                     if (!target.classList.contains('checked')) {
                         this.list[indx].checked = true
-                        
+
                         list.insertBefore(target, null)
                     } else {
                         this.list[indx] = { ...this.list[indx], 'checked': false }
@@ -116,7 +116,6 @@
                     this.price = item.price.toString()
                     this.remove(item)
                     // Unchecked items move back to original postion
-                    // CSS changes should be persistent across refreshes
                 }
             })
         })
