@@ -81,27 +81,29 @@
                     this.price = ''
                 },
                 remove(item) {
-                    this.list.splice(this.list.indexOf(item), 1)
-                    this.priceList.splice(this.priceList.indexOf(parseInt(item.price)), 1)
                     this.totalCost = this.totalCost < 0 ? 0 : this.totalCost - parseInt(item.price)
                     this.count = this.count < 0 ? 0 : this.count - 1
+                    this.list.splice(this.list.indexOf(item), 1)
+                    this.priceList.splice(this.priceList.indexOf(parseInt(item.price)), 1)
 
                     if (this.list.length == 0) {
                         this.totalCost = 0
                         this.count = 0
                     }
+                    location.reload()
                 },
                 check(target, item) {
-                    if (target.nodeName == "SPAN") {
+                    if (target.nodeName == "SPAN" || target.nodeName == "svg" || target.nodeName == "path") {
                         return
-                    }
-                    let indx = this.list.indexOf(item)
-                    let list = target.parentNode
-
-                    if (!target.classList.contains('checked')) {
-                        this.list[indx].checked = true
                     } else {
-                        this.list[indx] = { ...this.list[indx], 'checked': false }
+                        let indx = this.list.indexOf(item)
+                        let list = target.parentNode
+
+                        if (!target.classList.contains('checked')) {
+                            this.list[indx].checked = true
+                        } else {
+                            this.list[indx] = { ...this.list[indx], 'checked': false }
+                        }
                     }
                 },
                 edit(item) {
@@ -116,7 +118,7 @@
         })
     </script>
 
-    <div x-data="{}" class="container mt-4">
+    <div x-data="{}" class="container mt-4" @keyup.enter="$store.groceryList.add()">
         <div class="heading">
             <h1 x-text="$store.groceryList.name"></h1>
             <a href="/about.html" class="learn-link">
@@ -175,7 +177,11 @@
         <ul class="list-group">
             <template x-for="item in $store.groceryList.list" class="template">
                 <li x-data:="{checked: item.checked}"
-                    x-bind:class="checked ? 'list-group-item checked':'list-group-item'" x-on:click="(ev) => {
+                    x-bind:class="checked ? 'list-group-item checked':'list-group-item'"
+                    x-on:click="(ev) => {
+                        if(ev.target.nodeName=='svg' || ev.target.nodeName=='path' || ev.target.nodeName=='BUTTON'){
+                            return
+                        }
                         checked = !checked
                         $store.groceryList.check(ev.target,item)
                     }">
