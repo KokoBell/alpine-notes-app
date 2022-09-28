@@ -100,13 +100,9 @@
 
                     if (!target.classList.contains('checked')) {
                         this.list[indx].checked = true
-
-                        list.insertBefore(target, null)
                     } else {
                         this.list[indx] = { ...this.list[indx], 'checked': false }
-                        list.insertBefore(target, list.childNodes[0])
                     }
-                    console.log(this.list[indx])
                 },
                 edit(item) {
                     if (this.note != '' || this.price != '') {
@@ -115,14 +111,12 @@
                     this.note = item.label
                     this.price = item.price.toString()
                     this.remove(item)
-                    // Unchecked items move back to original postion
                 }
             })
         })
     </script>
 
     <div x-data="{}" class="container mt-4">
-
         <div class="heading">
             <h1 x-text="$store.groceryList.name"></h1>
             <a href="/about.html" class="learn-link">
@@ -133,12 +127,10 @@
         </div>
 
         <div class="view">
-
             <div class="total-view">
                 <p class="total-text text-muted">
                     Total:
                 </p>
-
                 <span class="total-cost" x-text="$store.groceryList.totalCost"></span>
             </div>
 
@@ -146,7 +138,6 @@
                 <p class="item-text text-muted">
                     Number of Items:
                 </p>
-
                 <span class="item-number" x-text="$store.groceryList.count"></span>
             </div>
         </div>
