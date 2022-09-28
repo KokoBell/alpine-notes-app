@@ -1,5 +1,6 @@
 :root {
     font-size: 16px;
+    --padding: 12px;
 }
 
 .heading {
@@ -25,11 +26,9 @@
 .delete-button {
     background-color: #ff502f;
     color: blanchedalmond;
-}
-
-.edit-button {
-    background-color: rgb(63, 206, 63);
-    color: blanchedalmond;
+    padding-left: var(--padding);
+    padding-right: var(--padding);
+    margin-right: 12px;
 }
 
 .delete-button:hover {
@@ -39,6 +38,14 @@
 
 .edit-button {
     background-color: #8bc24c;
+    color: blanchedalmond;
+    padding-left: var(--padding);
+    padding-right: var(--padding);
+}
+
+.edit-button:hover {
+    background-color: rgb(63, 206, 63);
+    color: blanchedalmond;
 }
 
 .learn-button {
